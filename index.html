@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Saraswati Puja 2025</title>
+    <title>Saraswati Puja 2026</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&display=swap"
         rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -317,7 +318,8 @@
             }
 
             #audio-control {
-                top: 80px;
+                top: auto;
+                bottom: 80px;
                 left: 15px;
                 width: 35px;
                 height: 35px;
@@ -341,6 +343,217 @@
                 font-size: 16px;
             }
         }
+
+        /* Invitation Button */
+        #invitation-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        #invitation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Invitation Modal */
+        #invitation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        #invitation-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 50px rgba(251, 191, 36, 0.3);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #fbbf24;
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .modal-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #fbbf24;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #fbbf24;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            display: none;
+        }
+
+        .download-btn.active {
+            display: block;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            #invitation-btn {
+                top: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .modal-header h2 {
+                font-size: 22px;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Developer Credit */
+        #developer-credit {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            z-index: 10;
+            font-family: 'Playfair Display', serif;
+        }
+
+        #developer-credit a {
+            color: rgba(251, 191, 36, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #developer-credit a:hover {
+            color: #fbbf24;
+        }
+
+        @media (max-width: 768px) {
+            #developer-credit {
+                font-size: 8px;
+                bottom: 3px;
+                right: 5px;
+            }
+        }
     </style>
 </head>
 
@@ -348,8 +561,8 @@
     <!-- Start Overlay for Mobile Audio -->
     <div id="start-overlay">
         <div class="start-content">
-            <h2>Saraswati Puja 2025</h2>
-            <p>Om Aim Saraswatyai Namah</p>
+            <h2>Saraswati Puja 2026</h2>
+            <p>सरस्वति नमस्तुभ्यं वरदे कामरूपिणि । विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा ॥</p>
             <button class="tap-button">Start</button>
         </div>
     </div>
@@ -360,8 +573,29 @@
     </div>
 
     <div id="header">
-        <h1>Saraswati Puja 2025 <br> 23 January</h1>
+        <h1>Saraswati Puja 2026 <br> 23 January</h1>
         <p>Northern University of Business and Technology Khulna Permanent Campus</p>
+    </div>
+
+    <!-- Invitation Button -->
+    <button id="invitation-btn">Invitation</button>
+
+    <!-- Invitation Modal -->
+    <div id="invitation-modal">
+        <div class="modal-content">
+            <button class="close-modal">×</button>
+            <div class="modal-header">
+                <h2>Get Your Invitation</h2>
+                <p>Enter your name to receive a personalized invitation</p>
+            </div>
+            <div class="input-group">
+                <label for="guest-name">Your Name</label>
+                <input type="text" id="guest-name" placeholder="Enter your name" autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn download-btn" id="download-pdf">Download Invitation</button>
+            </div>
+        </div>
     </div>
 
     <!-- Background Music -->
@@ -379,6 +613,11 @@
 
     <div id="carousel-indicators"></div>
 
+    <!-- Developer Credit -->
+    <div id="developer-credit">
+        Developer: <a href="https://qknot.github.io/Portfolio/" target="_blank" rel="noopener">Rahul Ghosh</a>
+    </div>
+
     <canvas id="canvas"></canvas>
 
     <script>
@@ -394,7 +633,7 @@
         const audioControl = document.getElementById('audio-control');
 
         // Carousel configuration
-        const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json'];
+        const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json', 's14.json'];
         let currentSlide = 0;
         let particles = [];
         let mouse = { x: null, y: null };
@@ -452,6 +691,212 @@
         // Event listeners for start overlay
         startOverlay.addEventListener('click', handleStart);
         audioControl.addEventListener('click', toggleAudio);
+
+        // Invitation Modal Functionality
+        const invitationBtn = document.getElementById('invitation-btn');
+        const invitationModal = document.getElementById('invitation-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const guestNameInput = document.getElementById('guest-name');
+        const downloadBtn = document.getElementById('download-pdf');
+
+        // Open modal
+        invitationBtn.addEventListener('click', () => {
+            invitationModal.classList.add('active');
+            guestNameInput.value = '';
+            downloadBtn.classList.remove('active');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            invitationModal.classList.remove('active');
+        });
+
+        // Close modal on outside click
+        invitationModal.addEventListener('click', (e) => {
+            if (e.target === invitationModal) {
+                invitationModal.classList.remove('active');
+            }
+        });
+
+        // Show download button when name is entered
+        guestNameInput.addEventListener('input', () => {
+            if (guestNameInput.value.trim().length > 0) {
+                downloadBtn.classList.add('active');
+            } else {
+                downloadBtn.classList.remove('active');
+            }
+        });
+
+        // Generate and download PDF
+        downloadBtn.addEventListener('click', () => {
+            const guestName = guestNameInput.value.trim();
+            if (!guestName) {
+                alert('Please enter your name');
+                return;
+            }
+
+            generateInvitationPDF(guestName);
+        });
+
+        // PDF Generation Function
+        async function generateInvitationPDF(guestName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+
+            // White Background
+            doc.setFillColor(255, 255, 255);
+            doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+            // Load logo and watermark images
+            const loadImage = (src) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = src;
+                });
+            };
+
+            try {
+                // Add watermark first (behind all content) - subtle and centered
+                const watermark = await loadImage('watermark.png');
+                const wmSize = 120;
+                // Create a canvas to apply blur effect to watermark
+                const wmCanvas = document.createElement('canvas');
+                wmCanvas.width = watermark.width;
+                wmCanvas.height = watermark.height;
+                const wmCtx = wmCanvas.getContext('2d');
+                wmCtx.filter = 'blur(3px) opacity(0.06)';
+                wmCtx.drawImage(watermark, 0, 0);
+                // Use very low opacity for subtle effect
+                doc.addImage(wmCanvas.toDataURL('image/png'), 'PNG', (pageWidth - wmSize) / 2, (pageHeight - wmSize) / 2 - 10, wmSize, wmSize, '', 'NONE', 0.05);
+            } catch (err) {
+                console.log('Watermark not loaded:', err);
+            }
+
+            // Golden border
+            doc.setDrawColor(218, 165, 32);
+            doc.setLineWidth(2);
+            doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
+
+            // Inner border
+            doc.setLineWidth(0.5);
+            doc.rect(15, 15, pageWidth - 30, pageHeight - 35);
+
+            try {
+                // Add logo at the top
+                const logo = await loadImage('watermark.png');
+                const logoWidth = 40;
+                const logoHeight = 40;
+                doc.addImage(logo, 'PNG', (pageWidth - logoWidth) / 2, 20, logoWidth, logoHeight);
+            } catch (err) {
+                console.log('Logo not loaded:', err);
+            }
+
+            // Decorative elements
+            doc.setFillColor(218, 165, 32);
+            doc.circle(30, 30, 2, 'F');
+            doc.circle(pageWidth - 30, 30, 2, 'F');
+            doc.circle(30, pageHeight - 20, 2, 'F');
+            doc.circle(pageWidth - 30, pageHeight - 20, 2, 'F');
+
+            doc.setFontSize(24);
+            doc.text('Saraswati Puja 2026', pageWidth / 2, 90, { align: 'center' });
+
+            // Decorative line
+            doc.setDrawColor(218, 165, 32);
+            doc.setLineWidth(0.5);
+            doc.line(40, 100, pageWidth - 40, 100);
+
+            // Personalized greeting
+            doc.setFontSize(16);
+            doc.setTextColor(50, 50, 50);
+            doc.text('Dear', pageWidth / 2, 115, { align: 'center' });
+
+            doc.setFontSize(20);
+            doc.setTextColor(218, 165, 32);
+            doc.text(guestName, pageWidth / 2, 127, { align: 'center' });
+
+            // Invitation text - English
+            doc.setFontSize(13);
+            doc.setTextColor(60, 60, 60);
+            const invitationText = [
+                'You are cordially invited to join us in celebrating',
+                'the auspicious occasion of Saraswati Puja 2026'
+            ];
+
+            let yPos = 142;
+            invitationText.forEach(line => {
+                doc.text(line, pageWidth / 2, yPos, { align: 'center' });
+                yPos += 8;
+            });
+
+            // Sanskrit Shloka
+            yPos += 8;
+            doc.setFontSize(11);
+            doc.setTextColor(139, 69, 19); // Saddle brown for Sanskrit
+            doc.text('Sanskrit Shloka:', pageWidth / 2, yPos, { align: 'center' });
+            yPos += 7;
+            doc.setFontSize(10);
+            doc.text('sarasvati namastubhyam varade kamarupini |', pageWidth / 2, yPos, { align: 'center' });
+            yPos += 6;
+            doc.text('vidyarambham karishyami siddhir bhavatu me sada ||', pageWidth / 2, yPos, { align: 'center' });
+
+            // Bangla blessing
+            yPos += 10;
+            doc.setFontSize(11);
+            doc.setTextColor(0, 100, 0); // Dark green for Bangla
+            doc.text('Bangla Blessing:', pageWidth / 2, yPos, { align: 'center' });
+            yPos += 7;
+            doc.setFontSize(10);
+            doc.text('"He Saraswati, tomake pranam. Tumi bidhyadayini,', pageWidth / 2, yPos, { align: 'center' });
+            yPos += 6;
+            doc.text('amader gyan o buddhir aalo dao."', pageWidth / 2, yPos, { align: 'center' });
+
+            // Event details box - positioned after yPos from invitation text
+            yPos += 15;
+            doc.setDrawColor(218, 165, 32);
+            doc.setFillColor(250, 245, 230);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(30, yPos, pageWidth - 60, 55, 3, 3, 'FD');
+
+            doc.setFontSize(16);
+            doc.setTextColor(218, 165, 32);
+            doc.text('Event Details', pageWidth / 2, yPos + 15, { align: 'center' });
+
+            doc.setFontSize(12);
+            doc.setTextColor(60, 60, 60);
+            doc.text('Date: 23 January 2026', pageWidth / 2, yPos + 28, { align: 'center' });
+
+            doc.setFontSize(11);
+            doc.text('Bani Aurchona: 8:00 AM', pageWidth / 2, yPos + 38, { align: 'center' });
+
+            const venueLines = doc.splitTextToSize('Venue: Northern University of Business and Technology Khulna Permanent Campus', pageWidth - 70);
+            doc.setFontSize(10);
+            doc.text(venueLines, pageWidth / 2, yPos + 47, { align: 'center' });
+
+            // Footer blessing
+            doc.setFontSize(10);
+            doc.setTextColor(120, 120, 120);
+            doc.text('May Goddess Saraswati bless you with knowledge and wisdom', pageWidth / 2, pageHeight - 20, { align: 'center' });
+
+
+            // Save PDF
+            const fileName = `Saraswati_Puja_Invitation_${guestName.replace(/\s+/g, '_')}.pdf`;
+            doc.save(fileName);
+
+            // Close modal after download
+            setTimeout(() => {
+                invitationModal.classList.remove('active');
+            }, 500);
+        }
 
         // Create indicators
         function createIndicators() {
