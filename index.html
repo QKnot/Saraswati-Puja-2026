@@ -766,14 +766,14 @@
 
             try {
                 // Add watermark first (behind all content) - subtle and centered
-                const watermark = await loadImage('watermark.png');
+                const watermark = await loadImage('logo.png');
                 const wmSize = 120;
                 // Create a canvas to apply blur effect to watermark
                 const wmCanvas = document.createElement('canvas');
                 wmCanvas.width = watermark.width;
                 wmCanvas.height = watermark.height;
                 const wmCtx = wmCanvas.getContext('2d');
-                wmCtx.filter = 'blur(3px) opacity(0.06)';
+                wmCtx.filter = 'blur(3px) opacity(0.6)';
                 wmCtx.drawImage(watermark, 0, 0);
                 // Use very low opacity for subtle effect
                 doc.addImage(wmCanvas.toDataURL('image/png'), 'PNG', (pageWidth - wmSize) / 2, (pageHeight - wmSize) / 2 - 10, wmSize, wmSize, '', 'NONE', 0.05);
@@ -786,13 +786,13 @@
             doc.setLineWidth(2);
             doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-            // Inner border
-            doc.setLineWidth(0.5);
-            doc.rect(15, 15, pageWidth - 30, pageHeight - 35);
+            // // Inner border
+            // doc.setLineWidth(0.5);
+            // doc.rect(15, 15, pageWidth - 30, pageHeight - 35);
 
             try {
                 // Add logo at the top
-                const logo = await loadImage('watermark.png');
+                const logo = await loadImage('logo.png');
                 const logoWidth = 40;
                 const logoHeight = 40;
                 doc.addImage(logo, 'PNG', (pageWidth - logoWidth) / 2, 20, logoWidth, logoHeight);
@@ -878,12 +878,12 @@
             doc.setFontSize(11);
             doc.text('Bani Aurchona: 8:00 AM', pageWidth / 2, yPos + 38, { align: 'center' });
 
-            const venueLines = doc.splitTextToSize('Venue: Northern University of Business and Technology Khulna Permanent Campus', pageWidth - 70);
+            const venueLines = doc.splitTextToSize('Northern University of Business and Technology Khulna Permanent Campus', pageWidth - 70);
             doc.setFontSize(10);
             doc.text(venueLines, pageWidth / 2, yPos + 47, { align: 'center' });
 
             // Footer blessing
-            doc.setFontSize(10);
+            doc.setFontSize(8);
             doc.setTextColor(120, 120, 120);
             doc.text('May Goddess Saraswati bless you with knowledge and wisdom', pageWidth / 2, pageHeight - 20, { align: 'center' });
 
