@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Saraswati Puja 2026</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -755,159 +756,300 @@
             generateInvitationPDF(guestName);
         });
 
-        // PDF Generation Function
+        // PDF Generation Function using HTML2Canvas for proper font support
         async function generateInvitationPDF(guestName) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
+            // Create a hidden container for the invitation content
+            const container = document.createElement('div');
+            container.id = 'pdf-container';
+            container.style.cssText = `
+                position: fixed;
+                left: -9999px;
+                top: 0;
+                width: 794px;
+                height: 1123px;
+                background: white;
+                padding: 40px;
+                box-sizing: border-box;
+                font-family: 'Playfair Display', serif;
+            `;
 
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
+            // Build the invitation HTML with proper fonts
+            container.innerHTML = `
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&display=swap');
+                    
+                    .pdf-content {
+                        width: 100%;
+                        height: 100%;
+                        border: 3px solid #DAA520;
+                        padding: 30px;
+                        box-sizing: border-box;
+                        position: relative;
+                        background: white;
+                    }
+                    
+                    .watermark {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        opacity: 0.08;
+                        width: 300px;
+                        filter: blur(2px);
+                        z-index: 0;
+                    }
+                    
+                    .content-wrapper {
+                        position: relative;
+                        z-index: 1;
+                        text-align: center;
+                    }
+                    
+                    .logo {
+                        width: 100px;
+                        height: 100px;
+                        margin: 0 auto 20px;
+                    }
+                    
+                    .title {
+                        font-family: 'Cinzel', serif;
+                        font-size: 32px;
+                        color: #333;
+                        margin-bottom: 10px;
+                        font-weight: 600;
+                    }
+                    
+                    .divider {
+                        width: 60%;
+                        height: 2px;
+                        background: linear-gradient(90deg, transparent, #DAA520, transparent);
+                        margin: 15px auto;
+                    }
+                    
+                    .dear-text {
+                        font-size: 18px;
+                        color: #555;
+                        margin-top: 20px;
+                    }
+                    
+                    .guest-name {
+                        font-family: 'Cinzel', serif;
+                        font-size: 28px;
+                        color: #DAA520;
+                        margin: 10px 0 25px;
+                        font-weight: 600;
+                    }
+                    
+                    .invitation-text {
+                        font-size: 16px;
+                        color: #444;
+                        line-height: 1.8;
+                        margin-bottom: 25px;
+                    }
+                    
+                    .sanskrit-section {
+                        margin: 20px 0;
+                        padding: 15px;
+                        background: linear-gradient(135deg, #FFF8E7, #FFF5E0);
+                        border-radius: 8px;
+                        border-left: 4px solid #8B4513;
+                    }
+                    
+                    .section-label {
+                        font-size: 12px;
+                        color: #8B4513;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    }
+                    
+                    .sanskrit-text {
+                        font-family: 'Noto Sans Devanagari', serif;
+                        font-size: 18px;
+                        color: #8B4513;
+                        line-height: 1.6;
+                    }
+                    
+                    .bangla-section {
+                        margin: 20px 0;
+                        padding: 15px;
+                        background: linear-gradient(135deg, #F0FFF0, #E8FFE8);
+                        border-radius: 8px;
+                        border-left: 4px solid #006400;
+                    }
+                    
+                    .bangla-label {
+                        font-size: 12px;
+                        color: #006400;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    }
+                    
+                    .bangla-text {
+                        font-family: 'Noto Sans Bengali', sans-serif;
+                        font-size: 18px;
+                        color: #006400;
+                        line-height: 1.6;
+                    }
+                    
+                    .event-box {
+                        background: linear-gradient(135deg, #FFF8E7, #FFF5E0);
+                        border: 2px solid #DAA520;
+                        border-radius: 10px;
+                        padding: 20px;
+                        margin: 25px auto;
+                        max-width: 80%;
+                    }
+                    
+                    .event-title {
+                        font-family: 'Cinzel', serif;
+                        font-size: 20px;
+                        color: #DAA520;
+                        margin-bottom: 15px;
+                        font-weight: 600;
+                    }
+                    
+                    .event-detail {
+                        font-size: 14px;
+                        color: #555;
+                        margin: 8px 0;
+                    }
+                    
+                    .event-detail strong {
+                        color: #333;
+                    }
+                    
+                    .venue {
+                        font-size: 13px;
+                        color: #666;
+                        margin-top: 10px;
+                        line-height: 1.4;
+                    }
+                    
+                    .footer {
+                        position: absolute;
+                        bottom: 20px;
+                        left: 0;
+                        right: 0;
+                        font-size: 11px;
+                        color: #888;
+                        text-align: center;
+                    }
+                    
+                    .corner-decoration {
+                        position: absolute;
+                        width: 15px;
+                        height: 15px;
+                        background: #DAA520;
+                        border-radius: 50%;
+                    }
+                    
+                    .corner-tl { top: 15px; left: 15px; }
+                    .corner-tr { top: 15px; right: 15px; }
+                    .corner-bl { bottom: 15px; left: 15px; }
+                    .corner-br { bottom: 15px; right: 15px; }
+                </style>
+                
+                <div class="pdf-content">
+                    <img src="logo.png" class="watermark" alt="watermark">
+                    
+                    <div class="corner-decoration corner-tl"></div>
+                    <div class="corner-decoration corner-tr"></div>
+                    <div class="corner-decoration corner-bl"></div>
+                    <div class="corner-decoration corner-br"></div>
+                    
+                    <div class="content-wrapper">
+                        <img src="logo.png" class="logo" alt="logo">
+                        
+                        <h1 class="title" style="font-family: 'Noto Sans Bengali', sans-serif;">সরস্বতী পূজা ২০২৬</h1>
+                        
+                        <div class="divider"></div>
+                        
+                        <p class="dear-text" style="font-family: 'Noto Sans Bengali', sans-serif;">প্রিয়</p>
+                        <h2 class="guest-name">${guestName}</h2>
+                        
+                        <p class="invitation-text" style="font-family: 'Noto Sans Bengali', sans-serif;">
+                            আপনাকে সশ্রদ্ধ আমন্ত্রণ জানাচ্ছি<br>
+                            <strong>সরস্বতী পূজা ২০২৬</strong> এর পবিত্র ও শুভ অনুষ্ঠানে যোগদানের জন্য।
+                        </p>
+                        
+                        <div class="sanskrit-section">
+                            <p class="section-label" style="font-family: 'Noto Sans Devanagari', serif;">॥ संस्कृत श्लोक ॥</p>
+                            <p class="sanskrit-text">
+                                सरस्वति नमस्तुभ्यं वरदे कामरूपिणि।<br>
+                                विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा॥
+                            </p>
+                        </div>
+                        
+                        <div class="bangla-section">
+                            <p class="bangla-label">॥ বাংলা প্রার্থনা ॥</p>
+                            <p class="bangla-text">
+                                হে সরস্বতী, তোমাকে প্রণাম।<br>
+                                তুমি বিদ্যাদায়িনী, আমাদের জ্ঞান ও বুদ্ধির আলো দাও।<br>
+                                হে বীণাপাণি, তোমার কৃপায় আমাদের জীবন ধন্য হোক।
+                            </p>
+                        </div>
+                        
+                        <div class="event-box">
+                            <h3 class="event-title" style="font-family: 'Noto Sans Bengali', sans-serif;">অনুষ্ঠানসূচি</h3>
+                            <p class="event-detail" style="font-family: 'Noto Sans Bengali', sans-serif;"><strong>তারিখ:</strong> শুক্রবার, ২৩ জানুয়ারি ২০২৬ | মাঘ মাস, শুক্লা পঞ্চমী তিথি</p>
+                            <p class="event-detail" style="font-family: 'Noto Sans Bengali', sans-serif;"><strong>বাণী অর্চনা:</strong> সকাল ৮:০০ টা</p>
+                            <p class="venue" style="font-family: 'Noto Sans Bengali', sans-serif;">
+                                <strong>স্থান:</strong><br>
+                                নর্দান ইউনিভার্সিটি অব বিজনেস অ্যান্ড টেকনোলজি খুলনা <br>
+                                (স্থায়ী ক্যাম্পাস)
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p class="footer" style="font-family: 'Noto Sans Bengali', sans-serif;">মা সরস্বতী, আমাকে জ্ঞান, বুদ্ধি ও প্রজ্ঞার আশীর্বাদে ধন্য করুন।</p>
+                </div>
+            `;
 
-            // White Background
-            doc.setFillColor(255, 255, 255);
-            doc.rect(0, 0, pageWidth, pageHeight, 'F');
+            document.body.appendChild(container);
 
-            // Load logo and watermark images
-            const loadImage = (src) => {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.onerror = reject;
-                    img.src = src;
+            // Wait for fonts to load
+            await document.fonts.ready;
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            try {
+                // Use html2canvas to capture the styled content
+                const canvas = await html2canvas(container, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false
                 });
-            };
 
-            try {
-                // Add watermark first (behind all content) - subtle and centered
-                const watermark = await loadImage('logo.png');
-                const wmSize = 120;
-                // Create a canvas to apply blur effect to watermark
-                const wmCanvas = document.createElement('canvas');
-                wmCanvas.width = watermark.width;
-                wmCanvas.height = watermark.height;
-                const wmCtx = wmCanvas.getContext('2d');
-                wmCtx.filter = 'blur(3px) opacity(0.5)';
-                wmCtx.drawImage(watermark, 0, 0);
-                // Use very low opacity for subtle effect
-                doc.addImage(wmCanvas.toDataURL('image/png'), 'PNG', (pageWidth - wmSize) / 2, (pageHeight - wmSize) / 2 - 10, wmSize, wmSize, '', 'NONE', 0.05);
-            } catch (err) {
-                console.log('Watermark not loaded:', err);
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+
+                // Add the canvas as an image
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+
+                // Save PDF
+                const fileName = `Saraswati_Puja_Invitation_${guestName.replace(/\s+/g, '_')}.pdf`;
+                doc.save(fileName);
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating PDF. Please try again.');
+            } finally {
+                // Remove the temporary container
+                document.body.removeChild(container);
             }
-
-            // Golden border
-            doc.setDrawColor(218, 165, 32);
-            doc.setLineWidth(2);
-            doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
-
-            // // Inner border
-            // doc.setLineWidth(0.5);
-            // doc.rect(15, 15, pageWidth - 30, pageHeight - 35);
-
-            try {
-                // Add logo at the top
-                const logo = await loadImage('logo.png');
-                const logoWidth = 40;
-                const logoHeight = 40;
-                doc.addImage(logo, 'PNG', (pageWidth - logoWidth) / 2, 20, logoWidth, logoHeight);
-            } catch (err) {
-                console.log('Logo not loaded:', err);
-            }
-
-            // Decorative elements
-            doc.setFillColor(218, 165, 32);
-            doc.circle(30, 30, 2, 'F');
-            doc.circle(pageWidth - 30, 30, 2, 'F');
-            doc.circle(30, pageHeight - 20, 2, 'F');
-            doc.circle(pageWidth - 30, pageHeight - 20, 2, 'F');
-
-            doc.setFontSize(24);
-            doc.text('Saraswati Puja 2026', pageWidth / 2, 90, { align: 'center' });
-
-            // Decorative line
-            doc.setDrawColor(218, 165, 32);
-            doc.setLineWidth(0.5);
-            doc.line(40, 100, pageWidth - 40, 100);
-
-            // Personalized greeting
-            doc.setFontSize(16);
-            doc.setTextColor(50, 50, 50);
-            doc.text('Dear', pageWidth / 2, 115, { align: 'center' });
-
-            doc.setFontSize(20);
-            doc.setTextColor(218, 165, 32);
-            doc.text(guestName, pageWidth / 2, 127, { align: 'center' });
-
-            // Invitation text - English
-            doc.setFontSize(13);
-            doc.setTextColor(60, 60, 60);
-            const invitationText = [
-                'You are cordially invited to join us in celebrating',
-                'the auspicious occasion of Saraswati Puja 2026'
-            ];
-
-            let yPos = 142;
-            invitationText.forEach(line => {
-                doc.text(line, pageWidth / 2, yPos, { align: 'center' });
-                yPos += 8;
-            });
-
-            // Sanskrit Shloka
-            yPos += 8;
-            doc.setFontSize(11);
-            doc.setTextColor(139, 69, 19); // Saddle brown for Sanskrit
-            doc.text('Sanskrit Shloka:', pageWidth / 2, yPos, { align: 'center' });
-            yPos += 7;
-            doc.setFontSize(10);
-            doc.text('sarasvati namastubhyam varade kamarupini |', pageWidth / 2, yPos, { align: 'center' });
-            yPos += 6;
-            doc.text('vidyarambham karishyami siddhir bhavatu me sada ||', pageWidth / 2, yPos, { align: 'center' });
-
-            // Bangla blessing
-            yPos += 10;
-            doc.setFontSize(11);
-            doc.setTextColor(0, 100, 0); // Dark green for Bangla
-            doc.text('Bangla Blessing:', pageWidth / 2, yPos, { align: 'center' });
-            yPos += 7;
-            doc.setFontSize(10);
-            doc.text('"He Saraswati, tomake pranam. Tumi bidhyadayini,', pageWidth / 2, yPos, { align: 'center' });
-            yPos += 6;
-            doc.text('amader gyan o buddhir aalo dao."', pageWidth / 2, yPos, { align: 'center' });
-
-            // Event details box - positioned after yPos from invitation text
-            yPos += 15;
-            doc.setDrawColor(218, 165, 32);
-            doc.setFillColor(250, 245, 230);
-            doc.setLineWidth(0.5);
-            doc.roundedRect(30, yPos, pageWidth - 60, 55, 3, 3, 'FD');
-
-            doc.setFontSize(16);
-            doc.setTextColor(218, 165, 32);
-            doc.text('Event Details', pageWidth / 2, yPos + 15, { align: 'center' });
-
-            doc.setFontSize(12);
-            doc.setTextColor(60, 60, 60);
-            doc.text('Date: 23 January 2026', pageWidth / 2, yPos + 28, { align: 'center' });
-
-            doc.setFontSize(11);
-            doc.text('Bani Aurchona: 8:00 AM', pageWidth / 2, yPos + 38, { align: 'center' });
-
-            const venueLines = doc.splitTextToSize('Northern University of Business and Technology Khulna Permanent Campus', pageWidth - 70);
-            doc.setFontSize(10);
-            doc.text(venueLines, pageWidth / 2, yPos + 47, { align: 'center' });
-
-            // Footer blessing
-            doc.setFontSize(8);
-            doc.setTextColor(120, 120, 120);
-            doc.text('May Goddess Saraswati bless you with knowledge and wisdom', pageWidth / 2, pageHeight - 20, { align: 'center' });
-
-
-            // Save PDF
-            const fileName = `Saraswati_Puja_Invitation_${guestName.replace(/\s+/g, '_')}.pdf`;
-            doc.save(fileName);
 
             // Close modal after download
             setTimeout(() => {
