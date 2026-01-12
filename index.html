@@ -790,7 +790,7 @@
                 wmCanvas.width = watermark.width;
                 wmCanvas.height = watermark.height;
                 const wmCtx = wmCanvas.getContext('2d');
-                wmCtx.filter = 'blur(3px) opacity(0.4)';
+                wmCtx.filter = 'blur(3px) opacity(0.1)';
                 wmCtx.drawImage(watermark, 0, 0);
                 // Use very low opacity for subtle effect
                 doc.addImage(wmCanvas.toDataURL('image/png'), 'PNG', (pageWidth - wmSize) / 2, (pageHeight - wmSize) / 2 - 10, wmSize, wmSize, '', 'NONE', 0.05);
