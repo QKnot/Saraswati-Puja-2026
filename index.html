@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Saraswati Puja 2025</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: #0a0a0a;
+            font-family: 'Playfair Display', serif;
+            touch-action: none;
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            cursor: crosshair;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        #canvas.transitioning {
+            opacity: 0;
+        }
+
+        #header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: #fbbf24;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+            padding: 30px 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        #header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+            font-family: 'Cinzel', serif;
+        }
+
+        #header p {
+            font-size: 19px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Carousel Indicators */
+        #carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: rgba(255, 255, 255, 0.9);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left {
+            left: 20px;
+        }
+
+        .nav-arrow.right {
+            right: 20px;
+        }
+
+        .nav-arrow::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid white;
+            border-right: 2px solid white;
+        }
+
+        .nav-arrow.left::before {
+            transform: rotate(-135deg);
+            margin-left: 4px;
+        }
+
+        .nav-arrow.right::before {
+            transform: rotate(45deg);
+            margin-right: 4px;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 20px;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Slide counter */
+        #slide-counter {
+            position: absolute;
+            top: 120px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 10;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            #header h1 {
+                font-size: 18px;
+            }
+
+            #header p {
+                font-size: 14px;
+            }
+
+            #header {
+                padding: 20px 15px;
+            }
+
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-arrow.left {
+                left: 10px;
+            }
+
+            .nav-arrow.right {
+                right: 10px;
+            }
+
+            #carousel-indicators {
+                bottom: 20px;
+            }
+
+            #slide-counter {
+                top: 90px;
+                right: 15px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+        Loading carousel...
+    </div>
+
+    <div id="header">
+        <h1>Saraswati Puja 2025 • 23 January</h1>
+        <p>Northern University of Business and Technology Khulna Permanent Campus</p>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" autoplay loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="slide-counter"></div>
+
+    <div class="nav-arrow left" id="prevBtn"></div>
+    <div class="nav-arrow right" id="nextBtn"></div>
+
+    <div id="carousel-indicators"></div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const loading = document.getElementById('loading');
+        const indicators = document.getElementById('carousel-indicators');
+        const slideCounter = document.getElementById('slide-counter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Carousel configuration
+        const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json'];
+        let currentSlide = 0;
+        let particles = [];
+        let mouse = { x: null, y: null };
+        let animationId;
+        let scale = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let autoPlayInterval;
+        let isTransitioning = false;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let currentImageWidth = 1200;  // Default, will be updated from JSON
+        let currentImageHeight = 1717; // Default, will be updated from JSON
+
+        // Auto-play settings
+        const AUTO_PLAY_DELAY = 5000; // 5 seconds
+        let lastInteractionTime = Date.now();
+        const INTERACTION_PAUSE = 3000; // Pause auto-play for 3 seconds after interaction
+
+        // Create indicators
+        function createIndicators() {
+            indicators.innerHTML = '';
+            jsonFiles.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                }
+                indicators.appendChild(indicator);
+            });
+        }
+
+        // Update indicators
+        function updateIndicators() {
+            const dots = indicators.querySelectorAll('.indicator');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            slideCounter.textContent = `${currentSlide + 1} / ${jsonFiles.length}`;
+        }
+
+        // Resize canvas to full window
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            calculateScale();
+        }
+
+        // Calculate scale to fit the image within the viewport
+        function calculateScale() {
+            if (particles.length === 0) return;
+
+            const padding = 40;
+            const scaleX = (canvas.width - padding * 2) / currentImageWidth;
+            const scaleY = (canvas.height - padding * 2) / currentImageHeight;
+            scale = Math.min(scaleX, scaleY, 1);
+
+            offsetX = (canvas.width - currentImageWidth * scale) / 2;
+            offsetY = (canvas.height - currentImageHeight * scale) / 2;
+        }
+
+        // Particle class
+        class Particle {
+            constructor(x, y, opacity = 1) {
+                this.originalX = x;
+                this.originalY = y;
+                this.x = x;
+                this.y = y;
+                this.vx = 0;
+                this.vy = 0;
+                this.size = 1;
+                this.opacity = opacity;
+            }
+
+            draw() {
+                const screenX = this.x * scale + offsetX;
+                const screenY = this.y * scale + offsetY;
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillRect(screenX, screenY, this.size * scale, this.size * scale);
+            }
+
+            update() {
+                const screenX = this.x * scale + offsetX;
+                const screenY = this.y * scale + offsetY;
+
+                // Calculate distance from mouse
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - screenX;
+                    const dy = mouse.y - screenY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 150;
+
+                    if (distance < maxDistance) {
+                        const force = (maxDistance - distance) / maxDistance;
+                        const angle = Math.atan2(dy, dx);
+                        this.vx -= Math.cos(angle) * force * 2;
+                        this.vy -= Math.sin(angle) * force * 2;
+                    }
+                }
+
+                // Apply velocity
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Restore to original position (spring effect)
+                const dx = this.originalX - this.x;
+                const dy = this.originalY - this.y;
+                this.vx += dx * 0.05;
+                this.vy += dy * 0.05;
+
+                // Damping
+                this.vx *= 0.92;
+                this.vy *= 0.92;
+            }
+        }
+
+        // Load JSON data for a specific slide
+        async function loadSlide(slideIndex) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            try {
+                // Fade out
+                canvas.classList.add('transitioning');
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                const response = await fetch(jsonFiles[slideIndex]);
+                const data = await response.json();
+
+                // Update dimensions from JSON data
+                currentImageWidth = data.width || 1200;
+                currentImageHeight = data.height || 1717;
+
+                // Clear old particles
+                particles = [];
+
+                // Sample particles for performance
+                const samplingRate = data.pixels.length > 50000 ? 4 : 1;
+
+                data.pixels.forEach((pixel, index) => {
+                    if (index % samplingRate === 0) {
+                        particles.push(new Particle(pixel.x, pixel.y));
+                    }
+                });
+
+                calculateScale();
+
+                // Fade in
+                await new Promise(resolve => setTimeout(resolve, 100));
+                canvas.classList.remove('transitioning');
+
+                isTransitioning = false;
+            } catch (error) {
+                console.error('Error loading slide:', error);
+                isTransitioning = false;
+            }
+        }
+
+        // Navigate to next slide
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % jsonFiles.length;
+            loadSlide(currentSlide);
+            updateIndicators();
+            lastInteractionTime = Date.now();
+        }
+
+        // Navigate to previous slide
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + jsonFiles.length) % jsonFiles.length;
+            loadSlide(currentSlide);
+            updateIndicators();
+            lastInteractionTime = Date.now();
+        }
+
+        // Auto-play functionality
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(() => {
+                // Only auto-advance if enough time has passed since last interaction
+                if (Date.now() - lastInteractionTime > INTERACTION_PAUSE) {
+                    nextSlide();
+                }
+            }, AUTO_PLAY_DELAY);
+        }
+
+        // Initial load
+        async function initialize() {
+            createIndicators();
+            updateIndicators();
+
+            await loadSlide(currentSlide);
+
+            loading.style.display = 'none';
+            animate();
+            startAutoPlay();
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Mouse/touch event handlers
+        function updateMousePosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX - rect.left;
+                mouse.y = e.touches[0].clientY - rect.top;
+            } else {
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            }
+            lastInteractionTime = Date.now();
+        }
+
+        function clearMouse() {
+            mouse.x = null;
+            mouse.y = null;
+        }
+
+        // Touch swipe detection
+        function handleTouchStart(e) {
+            touchStartX = e.touches[0].clientX;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    nextSlide();
+                } else {
+                    // Swipe right - previous slide
+                    prevSlide();
+                }
+            }
+        }
+
+        // Event listeners
+        canvas.addEventListener('mousemove', updateMousePosition);
+        canvas.addEventListener('touchmove', updateMousePosition, { passive: true });
+        canvas.addEventListener('mouseleave', clearMouse);
+        canvas.addEventListener('touchend', clearMouse);
+        canvas.addEventListener('touchcancel', clearMouse);
+
+        // Swipe gestures
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: true });
+        canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+        // Navigation buttons
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            calculateScale();
+        });
+
+        // Initialize
+        resizeCanvas();
+        initialize();
+    </script>
+</body>
+
+</html>
