@@ -184,17 +184,111 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
         }
 
+        /* Start Overlay for Mobile Audio */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+
+        #start-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .start-content {
+            text-align: center;
+            color: #fbbf24;
+        }
+
+        .start-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        .start-content p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .tap-button {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .tap-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Audio Control Button */
+        #audio-control {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #audio-control:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        #audio-control::before {
+            content: '🔊';
+            font-size: 20px;
+        }
+
+        #audio-control.muted::before {
+            content: '🔇';
+        }
+
         @media (max-width: 768px) {
             #header h1 {
                 font-size: 18px;
+                margin-bottom: 8px;
             }
 
             #header p {
-                font-size: 14px;
+                font-size: 12px;
+                line-height: 1.4;
             }
 
             #header {
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
 
             .nav-arrow {
@@ -215,29 +309,68 @@
             }
 
             #slide-counter {
-                top: 90px;
-                right: 15px;
-                font-size: 12px;
+                bottom: 70px;
+                left: 15px;
+                right: auto;
+                top: auto;
+                font-size: 11px;
+            }
+
+            #audio-control {
+                top: 80px;
+                left: 15px;
+                width: 35px;
+                height: 35px;
+            }
+
+            #audio-control::before {
+                font-size: 16px;
+            }
+
+            .start-content h2 {
+                font-size: 22px;
+            }
+
+            .start-content p {
+                font-size: 14px;
+                padding: 0 20px;
+            }
+
+            .tap-button {
+                padding: 12px 30px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Start Overlay for Mobile Audio -->
+    <div id="start-overlay">
+        <div class="start-content">
+            <h2>Saraswati Puja 2025</h2>
+            <p>Om Aim Saraswatyai Namah</p>
+            <button class="tap-button">Start</button>
+        </div>
+    </div>
+
     <div id="loading">
         <div class="spinner"></div>
-        Loading carousel...
+        Om Aim Saraswatyai Namah
     </div>
 
     <div id="header">
-        <h1>Saraswati Puja 2025 • 23 January</h1>
+        <h1>Saraswati Puja 2025 <br> 23 January</h1>
         <p>Northern University of Business and Technology Khulna Permanent Campus</p>
     </div>
 
     <!-- Background Music -->
-    <audio id="bgMusic" autoplay loop>
+    <audio id="bgMusic" loop>
         <source src="song.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Audio Control Button -->
+    <div id="audio-control" title="Toggle Audio"></div>
 
     <div id="slide-counter"></div>
 
@@ -256,6 +389,9 @@
         const slideCounter = document.getElementById('slide-counter');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const startOverlay = document.getElementById('start-overlay');
+        const audioControl = document.getElementById('audio-control');
 
         // Carousel configuration
         const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json'];
@@ -272,11 +408,50 @@
         let touchEndX = 0;
         let currentImageWidth = 1200;  // Default, will be updated from JSON
         let currentImageHeight = 1717; // Default, will be updated from JSON
+        let audioInitialized = false;
 
         // Auto-play settings
         const AUTO_PLAY_DELAY = 5000; // 5 seconds
         let lastInteractionTime = Date.now();
         const INTERACTION_PAUSE = 3000; // Pause auto-play for 3 seconds after interaction
+
+        // Start overlay handler
+        function handleStart() {
+            startOverlay.classList.add('hidden');
+
+            // Initialize and play audio
+            if (!audioInitialized) {
+                bgMusic.play().then(() => {
+                    audioInitialized = true;
+                    audioControl.classList.remove('muted');
+                }).catch(err => {
+                    console.log('Audio autoplay prevented:', err);
+                });
+            }
+
+            // Remove overlay after animation
+            setTimeout(() => {
+                startOverlay.style.display = 'none';
+            }, 500);
+        }
+
+        // Audio control toggle
+        function toggleAudio() {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    audioControl.classList.remove('muted');
+                }).catch(err => {
+                    console.log('Audio play failed:', err);
+                });
+            } else {
+                bgMusic.pause();
+                audioControl.classList.add('muted');
+            }
+        }
+
+        // Event listeners for start overlay
+        startOverlay.addEventListener('click', handleStart);
+        audioControl.addEventListener('click', toggleAudio);
 
         // Create indicators
         function createIndicators() {
