@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Saraswati Puja 2026</title>
+    <title>সরস্বতী পূজা ২০২৬</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap"
         rel="stylesheet">
@@ -581,21 +581,22 @@
     <!-- Start Overlay for Mobile Audio -->
     <div id="start-overlay">
         <div class="start-content">
-            <h2>Saraswati Puja 2026</h2>
+            <h2>সরস্বতী পূজা ২০২৬</h2>
             <p>सरस्वति नमस्तुभ्यं वरदे कामरूपिणि । विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा ॥</p>
-            <button class="tap-button">Start</button>
+            <button class="tap-button">শুরু করুন</button>
+
         </div>
     </div>
 
     <div id="loading">
         <div class="spinner"></div>
-        Om Aim Saraswatyai Namah
+        सरस्वति नमस्तुभ्यं वरदे कामरूपिणि । विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा ॥
     </div>
 
     <div id="header">
-        <h1>Saraswati Puja 2026 <br> 23 January</h1>
-        <p>Northern University of Business and Technology Khulna Permanent Campus</p>
-        <button id="invitation-btn">Invitation</button>
+        <h1>সরস্বতী পূজা ২০২৬ <br> শুক্রবার, ২৩ জানুয়ারি ২০২৬ | মাঘ মাস, শুক্লা পঞ্চমী তিথি</h1>
+        <p>নর্দান ইউনিভার্সিটি অব বিজনেস অ্যান্ড টেকনোলজি খুলনা (স্থায়ী ক্যাম্পাস)</p>
+        <button id="invitation-btn">আমন্ত্রণপত্র</button>
     </div>
 
     <!-- Invitation Modal -->
@@ -603,16 +604,17 @@
         <div class="modal-content">
             <button class="close-modal">×</button>
             <div class="modal-header">
-                <h2>Get Your Invitation</h2>
-                <p>Enter your name to receive a personalized invitation</p>
+                <h2>আপনার আমন্ত্রণপত্র সংগ্রহ করুন</h2>
+                <p>ব্যক্তিগত আমন্ত্রণপত্র পেতে আপনার নাম লিখুন</p>
             </div>
             <div class="input-group">
-                <label for="guest-name">Your Name</label>
-                <input type="text" id="guest-name" placeholder="Enter your name" autocomplete="off">
+                <label for="guest-name">আপনার নাম</label>
+                <input type="text" id="guest-name" placeholder="আপনার নাম লিখুন" autocomplete="off">
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn download-btn" id="download-pdf">Download Invitation</button>
+                <button class="modal-btn download-btn" id="download-pdf">আমন্ত্রণপত্র ডাউনলোড করুন</button>
             </div>
+
         </div>
     </div>
 
@@ -633,7 +635,7 @@
 
     <!-- Developer Credit -->
     <div id="developer-credit">
-        Developer: <a href="https://qknot.github.io/Portfolio/" target="_blank" rel="noopener">Rahul Ghosh</a>
+        ডেভেলপার: <a href="https://qknot.github.io/Portfolio/" target="_blank" rel="noopener">রাহুল ঘোষ</a>
     </div>
 
     <canvas id="canvas"></canvas>
@@ -794,7 +796,7 @@
                         left: 50%;
                         transform: translate(-50%, -50%);
                         opacity: 0.08;
-                        width: 300px;
+                        width: 400px;
                         filter: blur(2px);
                         z-index: 0;
                     }
@@ -806,9 +808,11 @@
                     }
                     
                     .logo {
-                        width: 100px;
-                        height: 100px;
+                        width: 150px;
+                        height: 150px;
                         margin: 0 auto 20px;
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges;
                     }
                     
                     .title {
@@ -1017,6 +1021,7 @@
 
             try {
                 // Use html2canvas to capture the styled content
+                // Scale reduced from 2 to 1.5 for smaller file size while maintaining quality
                 const canvas = await html2canvas(container, {
                     scale: 2,
                     useCORS: true,
@@ -1025,20 +1030,23 @@
                     logging: false
                 });
 
-                // Create PDF
+                // Create PDF with compression enabled
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({
                     orientation: 'portrait',
                     unit: 'mm',
-                    format: 'a4'
+                    format: 'a4',
+                    compress: true
                 });
 
                 const pageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
 
-                // Add the canvas as an image
-                const imgData = canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+                // Add the canvas as JPEG with compression (0.92 quality = excellent quality)
+                // Quality must be between 0 and 1. Higher = better quality but larger file
+                // 0.92 provides excellent visual quality for logos and text
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                doc.addImage(imgData, 'JPEG', 0, 0, pageWidth, pageHeight, '', 'FAST');
 
                 // Save PDF
                 const fileName = `Saraswati_Puja_Invitation_${guestName.replace(/\s+/g, '_')}.pdf`;
