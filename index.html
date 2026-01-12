@@ -346,22 +346,21 @@
 
         /* Invitation Button */
         #invitation-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            display: inline-block;
+            margin-top: 15px;
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: #000;
-            padding: 10px 20px;
+            padding: 10px 25px;
             border-radius: 25px;
             font-size: 14px;
             font-weight: 600;
             border: none;
             cursor: pointer;
-            z-index: 10;
             transition: all 0.3s ease;
             font-family: 'Cinzel', serif;
             letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            pointer-events: auto;
         }
 
         #invitation-btn:hover {
@@ -378,10 +377,12 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
             display: none;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             z-index: 2000;
             backdrop-filter: blur(10px);
+            padding-top: 10vh;
+            overflow-y: auto;
         }
 
         #invitation-modal.active {
@@ -397,6 +398,7 @@
             position: relative;
             border: 2px solid #fbbf24;
             box-shadow: 0 0 50px rgba(251, 191, 36, 0.3);
+            margin-bottom: 20px;
         }
 
         .modal-header {
@@ -507,38 +509,55 @@
 
         @media (max-width: 768px) {
             #invitation-btn {
-                top: 15px;
-                right: 15px;
+                margin-top: 10px;
                 padding: 8px 16px;
                 font-size: 12px;
             }
 
+            #invitation-modal {
+                padding-top: 5vh;
+            }
+
             .modal-content {
-                padding: 30px 20px;
+                padding: 25px 20px;
+                margin-top: 0;
+            }
+
+            .modal-header {
+                margin-bottom: 20px;
             }
 
             .modal-header h2 {
-                font-size: 22px;
+                font-size: 20px;
+            }
+
+            .modal-header p {
+                font-size: 12px;
+            }
+
+            .input-group {
+                margin-bottom: 15px;
             }
 
             .modal-buttons {
                 flex-direction: column;
+                margin-top: 20px;
             }
         }
 
         /* Developer Credit */
         #developer-credit {
             position: absolute;
-            bottom: 5px;
-            right: 10px;
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
+            bottom: 8px;
+            right: 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
             z-index: 10;
             font-family: 'Playfair Display', serif;
         }
 
         #developer-credit a {
-            color: rgba(251, 191, 36, 0.7);
+            color: rgba(251, 191, 36, 0.8);
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -549,9 +568,9 @@
 
         @media (max-width: 768px) {
             #developer-credit {
-                font-size: 8px;
-                bottom: 3px;
-                right: 5px;
+                font-size: 11px;
+                bottom: 5px;
+                right: 8px;
             }
         }
     </style>
@@ -575,10 +594,8 @@
     <div id="header">
         <h1>Saraswati Puja 2026 <br> 23 January</h1>
         <p>Northern University of Business and Technology Khulna Permanent Campus</p>
+        <button id="invitation-btn">Invitation</button>
     </div>
-
-    <!-- Invitation Button -->
-    <button id="invitation-btn">Invitation</button>
 
     <!-- Invitation Modal -->
     <div id="invitation-modal">
