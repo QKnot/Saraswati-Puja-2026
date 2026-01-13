@@ -345,28 +345,82 @@
             }
         }
 
-        /* Invitation Button */
+        /* Invitation Button Redesign */
         #invitation-btn {
-            display: inline-block;
-            margin-top: 15px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #fbbf24);
+            background-size: 200% auto;
             color: #000;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: 'Cinzel', serif;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            letter-spacing: 1.5px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(251, 191, 36, 0.4);
             pointer-events: auto;
+            text-transform: uppercase;
+            animation: shine-button 3s infinite alternate;
+        }
+
+        @keyframes shine-button {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        #invitation-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.4),
+                    transparent);
+            transform: rotate(25deg);
+            animation: shimmer-effect 4s infinite linear;
+        }
+
+        @keyframes shimmer-effect {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 200%;
+            }
         }
 
         #invitation-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(251, 191, 36, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+            border-color: #fff;
+            color: #000;
+        }
+
+        #invitation-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .btn-icon-wrapper {
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
         }
 
         /* Invitation Modal */
@@ -510,9 +564,10 @@
 
         @media (max-width: 768px) {
             #invitation-btn {
-                margin-top: 10px;
-                padding: 8px 16px;
-                font-size: 12px;
+                margin-top: 15px;
+                padding: 10px 20px;
+                font-size: 13px;
+                gap: 8px;
             }
 
             #invitation-modal {
@@ -598,12 +653,14 @@
             সরস্বতী পূজা ২০২৬
         </h1>
         <h2>
-            শুক্রবার, ২৩ জানুয়ারি ২০২৬ খ্রিস্টাব্দ  <br>
+            শুক্রবার, ২৩ জানুয়ারি ২০২৬ খ্রিস্টাব্দ <br>
             মাঘ মাস, শুক্লা পঞ্চমী তিথি <br>
             ৯ মাঘ ১৪৩২ বঙ্গাব্দ
         </h2>
         <p>নর্দান ইউনিভার্সিটি অব বিজনেস অ্যান্ড টেকনোলজি খুলনা (স্থায়ী ক্যাম্পাস)</p>
-        <button id="invitation-btn">আমন্ত্রণপত্র</button>
+        <button id="invitation-btn">
+            আমন্ত্রণপত্র
+        </button>
     </div>
 
     <!-- Invitation Modal -->
@@ -660,7 +717,7 @@
         const audioControl = document.getElementById('audio-control');
 
         // Carousel configuration
-        const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json', 's14.json', 's15.json', 's16.json', 's17.json', 's18.json', 's19.json', 's20.json', 's21.json', 's22.json', 's23.json', 's24.json', 's25.json', 's26.json', 's27.json', 's28.json'];
+        const jsonFiles = ['s1.json', 's2.json', 's3.json', 's4.json', 's5.json', 's6.json', 's7.json', 's8.json', 's9.json', 's10.json', 's11.json', 's12.json', 's13.json', 's14.json', 's15.json', 's16.json', 's17.json', 's18.json', 's19.json', 's20.json', 's21.json', 's22.json', 's23.json', 's24.json', 's25.json', 's26.json', 's27.json', 's28.json', 's29.json', 's30.json', 's31.json', 's32.json', 's33.json', 's34.json', 's35.json', 's36.json'];
         let currentSlide = 0;
         let particles = [];
         let mouse = { x: null, y: null };

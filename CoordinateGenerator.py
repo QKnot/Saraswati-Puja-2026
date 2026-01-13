@@ -3,9 +3,9 @@ import json
 import os
 
 # -------- CONFIG --------
-IMAGE_PATH = "./image/s28.png"      # path to your image
-OUTPUT_JSON = "s28.json"
-WHITE_THRESHOLD = 20   # how white a pixel must be (0–255, higher = whiter)
+IMAGE_PATH = "./image/s31.png"      # path to your image
+OUTPUT_JSON = "s31.json"
+WHITE_THRESHOLD = 100   # how white a pixel must be (0–255, higher = whiter)
 # ------------------------
 
 def is_non_white(pixel):
